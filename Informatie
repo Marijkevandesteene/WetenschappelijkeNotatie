@@ -1,0 +1,9 @@
+Snippets: VS Studio (https://pwsmith.github.io/2020/06/05/setting-up-a-text-editor-for-latex-vscode/)
+  Install LaTeX workshop
+  ctrl+shft+p
+  user
+
+Snipper generator: https://snippet-generator.app/?description=matrix&tabtrigger=&snippet=%5Cbegin%7Bmatrix%7D%0A%26%26+%5C%5C%0A%26%26%0A%5Cend%7Bmatrix%7D&mode=vscode
+
+Notepad++
+  Snippets plugin
