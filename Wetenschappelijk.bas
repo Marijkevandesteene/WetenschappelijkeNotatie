@@ -63,7 +63,9 @@ Function NaSelectie(sCode As String, nbrWord As Integer) As Boolean
         formuleTekst = Selection.Text
         formuleTekst = formuleTekst & sCode & " "
         formuleTekst = Replace(formuleTekst, "\\", "\\ ")
-        Selection.Text = formuleTekst
+        'Selection.Text = formuleTekst
+        objrange.Text = formuleTekst
+        Set objrange = Selection.OMaths.Add(objrange)
     End If
 
  '   objRange.Text = objRange.Text & sCode
@@ -230,6 +232,159 @@ Sub VoegSymboolToe()
          objrange.Text = "\" & sSymbool
     End If
    
+    Set objrange = Selection.OMaths.Add(objrange)
+    Set objEq = objrange.OMaths(1)
+    objEq.BuildUp
+
+End Sub
+
+Function BepaalGrenzen4Integraal(sGrens)
+    Dim grens As String
+    
+    If Len(sGrens) = 1 Then
+        grens = sGrens
+    ElseIf Mid(sGrens, 1, 1) = "-" Then
+        'grens = "-"
+        If IsNumeric(Mid(sGrens, 2, 1)) Then
+            grens = sGrens
+        Else
+            grens = "-" & "\" & Mid(sGrens, 2, Len(sGrens) - 1)
+        End If
+    ElseIf Mid(sGrens, 1, 1) = "+" Then
+        'grens = "+"
+        If IsNumeric(Mid(sGrens, 1, 1)) Then
+            grens = sGrens
+        ElseIf Len(sGrens) = 2 Then
+            grens = "+" & Mid(sGrens, 2, Len(sGrens) - 1)
+        Else
+            grens = "+" & "\" & Mid(sGrens, 2, Len(sGrens) - 1)
+        End If
+    Else
+        If IsNumeric(Mid(sGrens, 1, 1)) Then
+            grens = sGrens
+        Else
+            grens = "\" & sGrens
+        End If
+        
+    End If
+    BepaalGrenzen4Integraal = grens
+ 
+End Function
+Sub VoegBepaaldeIntegralenToe()
+'
+' VoegSymboolToe Macro
+'
+    Dim objrange, objOut As Range
+    Dim objEq As OMath
+    Dim graad As Integer
+    Dim sVan, sTot As String
+    Dim van, tot As String
+    
+    graad = InputBox("Welke graad heeft de integraal?", "Voeg een bepaalde integraal toe", "1")
+    sVan = InputBox("Geef de ondergrens voor de bepaalde integraal. Voor een symbool gebruik de code, bvb -infty voor min ondeindig", "Ondergrens van integraal?", "0")
+    sTot = InputBox("Geef de bovengrens voor de bepaalde integraal. Voor een symbool gebruik de code, bvb +z voor +z", "Bovengrens van integraal?", "infty")
+    
+    Set objrange = Selection.Range
+    van = BepaalGrenzen4Integraal(sVan)
+    tot = BepaalGrenzen4Integraal(sTot)
+    
+    If graad = 1 Then
+        objrange.Text = "\int^{" & tot & "}_{" & van & "}{" & objrange.Text & "}"
+    ElseIf graad = 2 Then
+        objrange.Text = "\iint^{" & tot & "}_{" & van & "}{" & objrange.Text & "}"
+    ElseIf graad = 3 Then
+        objrange.Text = "\iiint^{" & tot & "}_{" & van & "}{" & objrange.Text & "}"
+    End If
+
+    Set objrange = Selection.OMaths.Add(objrange)
+    Set objEq = objrange.OMaths(1)
+    objEq.BuildUp
+
+End Sub
+Sub Limiet()
+'
+' limiet Macro
+'
+    Dim objrange, objOut As Range
+    Dim objEq As OMath
+    Dim graad As Integer
+    Dim sVan, sTot As String
+    Dim van, tot As String
+    
+    sVan = InputBox("Geef de limiet voor variabele ***. Voor een symbool gebruik de code, bvb alpha", "Limiet voor ***?", "x")
+    sTot = InputBox("Geef de limiet gaande naar de bovengrens ***. Voor een symbool gebruik de code, bvb infty voor +oneindig", "Limiet tot *?", "infty")
+    
+    Set objrange = Selection.Range
+    van = BepaalGrenzen4Integraal(sVan)
+    tot = BepaalGrenzen4Integraal(sTot)
+    
+    objrange.Text = "\lim_{" & van & "\rightarrow" & tot & "}{" & objrange.Text & "}"
+    
+    Set objrange = Selection.OMaths.Add(objrange)
+    Set objEq = objrange.OMaths(1)
+    objEq.BuildUp
+
+End Sub
+
+Sub Afgeleide()
+'
+' limiet Macro
+'
+    Dim objrange, objOut As Range
+    Dim objEq As OMath
+         
+    Set objrange = Selection.Range
+    
+    objrange.Text = "\frac{d(" & objrange.Text & ")}{dx}"
+    
+    Set objrange = Selection.OMaths.Add(objrange)
+    Set objEq = objrange.OMaths(1)
+    objEq.BuildUp
+End Sub
+
+
+Sub VoegOnbepaaldeIntegralenToe()
+'
+' VoegSymboolToe Macro
+'
+    Dim objrange As Range
+    Dim objEq As OMath
+    Dim graad As Integer
+    
+    graad = InputBox("Welke graad heeft de integraal?", "Voeg een onbepaalde integraal toe", "1")
+    
+    Set objrange = Selection.Range
+    
+    If graad = 1 Then
+        objrange.Text = "\int{" & objrange.Text & "}"
+    ElseIf graad = 2 Then
+        objrange.Text = "\iint{" & objrange.Text & "}"
+    ElseIf graad = 3 Then
+        objrange.Text = "\iiint{" & objrange.Text & "}"
+    End If
+
+    Set objrange = Selection.OMaths.Add(objrange)
+    Set objEq = objrange.OMaths(1)
+    objEq.BuildUp
+
+End Sub
+
+Sub VoegSomToe()
+'
+' VoegSymboolToe Macro
+'
+    Dim objrange As Range
+    Dim objEq As OMath
+    Dim sVan, sTot As String
+    
+    'graad = InputBox("Welke graad heeft de integraal?", "Voeg een bepaalde integraal toe", "1")
+    sVan = InputBox("Geef het start interval voor de som van een functie.", "Eerste deelinterval", "i = 1")
+    sTot = InputBox("Geef het aantal deelintervallen voor de som van de functie.", "Aantal deelintervallen?", "n")
+    
+    Set objrange = Selection.Range
+    
+    objrange.Text = "\sum^{" & sTot & "}_{" & sVan & "}{" & objrange.Text & "}"
+    
     Set objrange = Selection.OMaths.Add(objrange)
     Set objEq = objrange.OMaths(1)
     objEq.BuildUp
@@ -497,15 +652,6 @@ Sub ln()
     gelukt = Symbool("\ln{}", 3)
 
 End Sub
-Sub Limiet()
-'
-' limiet Macro
-'
-    Dim gelukt As Boolean
-    gelukt = Symbool("\lim_{?\;\rightarrow\;?}{f(x)}", 0)
-
-End Sub
-
 Sub VoegMxNroosterToe()
 '
 ' Voeg1x2matrixToe Macro
