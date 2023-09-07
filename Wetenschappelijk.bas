@@ -238,6 +238,9 @@ Sub VoegSymboolToe()
 
 End Sub
 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Analyse
+
 Function BepaalGrenzen4Integraal(sGrens)
     Dim grens As String
     
@@ -272,7 +275,7 @@ Function BepaalGrenzen4Integraal(sGrens)
 End Function
 Sub VoegBepaaldeIntegralenToe()
 '
-' VoegSymboolToe Macro
+' VoegBepaaldeIntegralenToe Macro
 '
     Dim objrange, objOut As Range
     Dim objEq As OMath
@@ -289,11 +292,11 @@ Sub VoegBepaaldeIntegralenToe()
     tot = BepaalGrenzen4Integraal(sTot)
     
     If graad = 1 Then
-        objrange.Text = "\int^{" & tot & "}_{" & van & "}{" & objrange.Text & "}"
+        objrange.Text = "\int^{" & tot & "}_{" & van & "}{(" & objrange.Text & ")}"
     ElseIf graad = 2 Then
-        objrange.Text = "\iint^{" & tot & "}_{" & van & "}{" & objrange.Text & "}"
+        objrange.Text = "\iint^{" & tot & "}_{" & van & "}{(" & objrange.Text & ")}"
     ElseIf graad = 3 Then
-        objrange.Text = "\iiint^{" & tot & "}_{" & van & "}{" & objrange.Text & "}"
+        objrange.Text = "\iiint^{" & tot & "}_{" & van & "}{(" & objrange.Text & ")}"
     End If
 
     Set objrange = Selection.OMaths.Add(objrange)
@@ -311,14 +314,14 @@ Sub Limiet()
     Dim sVan, sTot As String
     Dim van, tot As String
     
-    sVan = InputBox("Geef de limiet voor variabele ***. Voor een symbool gebruik de code, bvb alpha", "Limiet voor ***?", "x")
-    sTot = InputBox("Geef de limiet gaande naar de bovengrens ***. Voor een symbool gebruik de code, bvb infty voor +oneindig", "Limiet tot *?", "infty")
+    sVan = InputBox("Geef de limiet voor een variabele *** gaande naar ... Voor een symbool gebruik de code, bvb alpha", "Limiet voor ***?", "x")
+    sTot = InputBox("Geef de limiet voor een variabele gaande naar de bovengrens ***. Voor een symbool gebruik de code, bvb infty voor +oneindig", "Limiet gaande naar ***?", "infty")
     
     Set objrange = Selection.Range
     van = BepaalGrenzen4Integraal(sVan)
     tot = BepaalGrenzen4Integraal(sTot)
     
-    objrange.Text = "\lim_{" & van & "\rightarrow" & tot & "}{" & objrange.Text & "}"
+    objrange.Text = "\lim_{" & van & "\rightarrow" & tot & "}{(" & objrange.Text & ")}"
     
     Set objrange = Selection.OMaths.Add(objrange)
     Set objEq = objrange.OMaths(1)
@@ -356,11 +359,11 @@ Sub VoegOnbepaaldeIntegralenToe()
     Set objrange = Selection.Range
     
     If graad = 1 Then
-        objrange.Text = "\int{" & objrange.Text & "}"
+        objrange.Text = "\int{(" & objrange.Text & ")}"
     ElseIf graad = 2 Then
-        objrange.Text = "\iint{" & objrange.Text & "}"
+        objrange.Text = "\iint{(" & objrange.Text & ")}"
     ElseIf graad = 3 Then
-        objrange.Text = "\iiint{" & objrange.Text & "}"
+        objrange.Text = "\iiint{(" & objrange.Text & ")}"
     End If
 
     Set objrange = Selection.OMaths.Add(objrange)
@@ -383,7 +386,7 @@ Sub VoegSomToe()
     
     Set objrange = Selection.Range
     
-    objrange.Text = "\sum^{" & sTot & "}_{" & sVan & "}{" & objrange.Text & "}"
+    objrange.Text = "\sum^{" & sTot & "}_{" & sVan & "}{(" & objrange.Text & ")}"
     
     Set objrange = Selection.OMaths.Add(objrange)
     Set objEq = objrange.OMaths(1)
