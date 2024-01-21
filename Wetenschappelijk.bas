@@ -63,9 +63,7 @@ Function NaSelectie(sCode As String, nbrWord As Integer) As Boolean
         formuleTekst = Selection.Text
         formuleTekst = formuleTekst & sCode & " "
         formuleTekst = Replace(formuleTekst, "\\", "\\ ")
-        'Selection.Text = formuleTekst
-        objrange.Text = formuleTekst
-        Set objrange = Selection.OMaths.Add(objrange)
+        Selection.Text = formuleTekst
     End If
 
  '   objRange.Text = objRange.Text & sCode
@@ -237,7 +235,6 @@ Sub VoegSymboolToe()
     objEq.BuildUp
 
 End Sub
-
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Analyse
 
@@ -393,6 +390,9 @@ Sub VoegSomToe()
     objEq.BuildUp
 
 End Sub
+
+''Macht en Indices
+
 
 ''Macht en Indices
 Sub Macht()
@@ -639,6 +639,7 @@ Function MaakMx_Lijst(ByVal m As Integer) As String
     
 End Function
 
+
 Sub Logaritme()
 '
 ' Logaritme Macro
@@ -655,6 +656,7 @@ Sub ln()
     gelukt = Symbool("\ln{}", 3)
 
 End Sub
+
 Sub VoegMxNroosterToe()
 '
 ' Voeg1x2matrixToe Macro
@@ -788,6 +790,28 @@ Sub VoegMxVectorToe()
     objEq.BuildUp
 
 End Sub
+
+Sub BinomiaalGetal()
+'
+' BinomiaalGetal Macro
+'
+    Dim objrange As Range
+    Dim objEq As OMath
+    Dim formule, sElementen As String
+    sElementen = InputBox("Hoeveel elementen?", "#elementen", "2")
+    Dim m As Integer
+    m = Int(sElementen)
+     
+    Set objrange = Selection.Range
+    formule = MaakMx_Lijst(m)
+    objrange.Text = "\left(\begin{matrix}" & formule & "\end{matrix}\right)"
+    
+    Set objrange = Selection.OMaths.Add(objrange)
+    Set objEq = objrange.OMaths(1)
+    objEq.BuildUp
+
+End Sub
+
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''Tools
